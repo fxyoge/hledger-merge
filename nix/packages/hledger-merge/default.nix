@@ -1,11 +1,12 @@
 {
   pname,
   pkgs,
-  flake,
   inputs,
   perSystem,
   ...
-} @ args:
+} @ args: let
+  inherit (pkgs) lib;
+in
   perSystem.gomod2nix.buildGoApplication rec {
     inherit pname;
     # ensure we are using the same version of go to build with
