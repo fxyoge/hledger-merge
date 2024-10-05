@@ -11,7 +11,7 @@
     # ensure we are using the same version of go to build with
     inherit (pkgs) go;
 
-    version = "0.0.1";
+    version = "0.0.2";
 
     src = let
       filter = inputs.nix-filter.lib;
