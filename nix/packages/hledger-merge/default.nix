@@ -1,6 +1,7 @@
 {
   pname,
   pkgs,
+  flake,
   inputs,
   perSystem,
   ...
@@ -12,7 +13,7 @@ in
     # ensure we are using the same version of go to build with
     inherit (pkgs) go;
 
-    version = "0.0.5";
+    version = lib.removeSuffix "-dirty" (flake.shortRev or flake.dirtyShortRev);
 
     src = let
       filter = inputs.nix-filter.lib;
