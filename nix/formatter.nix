@@ -17,8 +17,7 @@ inputs.treefmt-nix.lib.mkWrapper pkgs {
   settings = {
     global.excludes = [
       "LICENSE"
-      # let's not mess with the test folder
-      "test/*"
+      "tests/*"
       # unsupported extensions
       "*.{gif,png,svg,tape,mts,lock,mod,sum,toml,env,envrc,gitignore}"
     ];

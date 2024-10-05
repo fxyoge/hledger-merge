@@ -51,10 +51,6 @@ func readTransactions(filename string) ([]Transaction, error) {
 		line := scanner.Text()
 		lineCount++
 
-		if strings.HasPrefix(line, ";") {
-			continue // Skip comments
-		}
-
 		if len(strings.TrimSpace(line)) == 0 {
 			if len(currentTransaction) > 0 {
 				transactions = append(transactions, Transaction{
@@ -73,10 +69,8 @@ func readTransactions(filename string) ([]Transaction, error) {
 					return nil, fmt.Errorf("invalid date format on line %d: %v", lineCount, err)
 				}
 				currentDate = date
-			}
-			if strings.Contains(line, "txid:") {
-				parts := strings.SplitN(line, "txid:", 2)
-				currentTxID = strings.TrimSpace(parts[1])
+			} else if currentTxID == "" {
+				currentTxID = extractTransactionTxID(line)
 			}
 			currentTransaction = append(currentTransaction, line)
 		}
@@ -92,6 +86,14 @@ func readTransactions(filename string) ([]Transaction, error) {
 	}
 
 	return transactions, scanner.Err()
+}
+
+func extractTransactionTxID(line string) string {
+	trimmedLine := strings.TrimSpace(line)
+	if strings.HasPrefix(trimmedLine, "; txid:") {
+		return strings.TrimSpace(trimmedLine[7:])
+	}
+	return ""
 }
 
 func deduplicateTransactions(transactions []Transaction) []Transaction {

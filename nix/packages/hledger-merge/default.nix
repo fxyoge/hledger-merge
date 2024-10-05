@@ -5,18 +5,13 @@
   inputs,
   perSystem,
   ...
-}: let
-  inherit (pkgs) lib;
-in
+} @ args:
   perSystem.gomod2nix.buildGoApplication rec {
     inherit pname;
-    # there's no good way of tying in the version to a git tag or branch
-    # so for simplicity's sake we set the version as the commit revision hash
-    # we remove the `-dirty` suffix to avoid a lot of unnecessary rebuilds in local dev
-    version = lib.removeSuffix "-dirty" (flake.shortRev or flake.dirtyShortRev);
-
     # ensure we are using the same version of go to build with
     inherit (pkgs) go;
+
+    version = "0.0.1";
 
     src = let
       filter = inputs.nix-filter.lib;
@@ -57,4 +52,6 @@ in
       license = licenses.mit;
       mainProgram = "hledger-merge";
     };
+
+    passthru.tests = (import ./tests) args;
   }

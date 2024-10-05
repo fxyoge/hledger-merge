@@ -18,7 +18,7 @@ func main() {
 				Name:     "input",
 				Aliases:  []string{"i"},
 				Usage:    "Input hledger files",
-				Required: true,
+				Required: false,
 			},
 			&cli.StringFlag{
 				Name:     "output",

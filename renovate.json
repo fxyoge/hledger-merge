@@ -7,6 +7,6 @@
   "lockFileMaintenance": {
     "enabled": true
   },
-  "reviewers": ["fxyoge"],
+  "automerge": true,
   "schedule": ["after 9pm on sunday"]
 }
